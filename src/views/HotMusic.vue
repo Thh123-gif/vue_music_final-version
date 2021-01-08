@@ -20,15 +20,14 @@ export default {
     data(){
         return {
             musicList:[],
-            nowTime:Date.now()
+            nowTime:0
         }
     },
     beforeRouteEnter(to,from,next){
         next(vm=>{
             vm.$axios.get('/playlist/detail?id=3778678').then(data=>{
-                // console.log(data.data.list[3]);
-                // console.log(data.data.list);
                 console.log(data);
+                vm.nowTime = data.data.playlist.updateTime;
             })
         })
     },

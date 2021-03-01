@@ -1,8 +1,9 @@
 <template>
     <div class="recommend-box">
+        <Loading v-if="remomendList.length <= 0"></Loading>
         <Title>推荐歌单</Title>
         <ul class="recommend-list">
-            <router-link v-for="rem in remomendList" :key="rem.id" tag="li" to="/">
+            <router-link v-for="rem in remomendList" :key="rem.id" tag="li" :to="`/playlist/${rem.id}`">
                 <a href="javascript:;">
                     <div class="img-list">
                         <img :src="rem.picUrl"/>
@@ -13,6 +14,7 @@
             </router-link>
         </ul>
         <Title>最新音乐</Title>
+        <Loading v-if="remomendList.length <= 0"></Loading>
         <MusicList :newsongs="newMusicList"></MusicList>
     </div>
 </template>
@@ -20,11 +22,13 @@
 <script>
 import Title from '../components/Title'
 import MusicList from '../components/MusicList'
+import Loading from '../components/Loading'
 
 export default {
     components:{
         Title,
-        MusicList
+        MusicList,
+        Loading,
     },
     data(){
         return {
@@ -34,11 +38,18 @@ export default {
     },
     beforeRouteEnter(to,from,next){
         next(vm=>{
+            //6个歌单
             vm.$axios.get('/personalized?limit=6').then(data=>{
                 vm.remomendList = data.data.result;
             });
+            // 最新音乐
             vm.$axios.get('/personalized/newsong').then(data=>{
                 vm.newMusicList = data.data.result;
+                // console.log(vm.newMusicList);
+                vm.$root.playingMusic.playingMusicList = [];
+                for(let i = 0; i < data.data.result.length; i++){
+                    vm.$root.playingMusic.playingMusicList.push(data.data.result[i].id);
+                }
             });
         })
     },

@@ -9,7 +9,9 @@ import axios from "axios";
 // axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
 
 let config = {
-  baseURL:'http://music.kele8.cn'
+  // baseURL:'http://music.kele8.cn'
+  baseURL:'http://musicapi.leanapp.cn/'
+  // baseURL:'http://192.168.90.2:3000/'
   // baseURL: process.env.baseURL || process.env.apiUrl || ""
   // timeout: 60 * 1000, // Timeout
   // withCredentials: true, // Check cross-site Access-Control
